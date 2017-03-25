@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>tree_model_class module &mdash; code  documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="code  documentation" href="index.html" />
+    <link rel="prev" title="bau_class module" href="bau_class.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="bau_class.html" title="bau_class module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">code  documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-tree_model_class">
+<span id="tree-model-class-module"></span><h1>tree_model_class module<a class="headerlink" href="#module-tree_model_class" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="tree_model_class.TreeModel">
+<em class="property">class </em><code class="descclassname">tree_model_class.</code><code class="descname">TreeModel</code><span class="sig-paren">(</span><em>decision_times=[0, 15, 45, 85, 185, 285, 385], sub_interval=5, prob_scale=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tree_model_class.html#TreeModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tree_model_class.TreeModel" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="tree_model_class.TreeModel.create_probs">
+<code class="descname">create_probs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tree_model_class.html#TreeModel.create_probs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tree_model_class.TreeModel.create_probs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the probabilities of the final states and every nodes in the tree structure;
+Here are the probabilities of each of the final states in the Monte Carlo with S total simulations,
+the damages are ordered from highest to lowest
+in state 0 with probability probs[0] let N0 = probs[0] x S
+the damage coefficient is the average damage in the first N0 ordered simulation damages
+in state 1 with probability probs[1] let N1 = probs[1] X S
+the damage coefficient is the average damage in the next N1 ordered simulation damages</p>
+<p>In other words, the states represent the unknown degrees of fragility of the environment
+prob_scale determines the relative probabilites in the array probs, they can be made equal by
+setting prob_scale = 1.0;they increase if prob_scale &gt; 1, which means the we can potentially
+more accurately investigate the impact of fatter tails.</p>
+<p>for example, with prob_scale = 1.0
+probs:  [0.0625, 0.0625, 0.0625, 0.0625, 0.0625, 0.0625, 0.0625, 0.0625, 0.0625, 0.0625,</p>
+<blockquote>
+<div>0.0625, 0.0625, 0.0625, 0.0625, 0.0625, 0.0625]</div></blockquote>
+<p>with prob_scale = 1.5
+probs:  [0.022511, 0.033767, 0.041357, 0.047342, 0.052392, 0.056818, 0.0607906, 0.064415, 0.067764,</p>
+<blockquote>
+<div>0.070887, 0.073820, 0.076592, 0.079224, 0.081734, 0.084136, 0.0864418]</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="tree_model_class.TreeModel.create_subintevals">
+<code class="descname">create_subintevals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tree_model_class.html#TreeModel.create_subintevals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tree_model_class.TreeModel.create_subintevals" title="Permalink to this definition">¶</a></dt>
+<dd><p>The subintrevals is calculated in the following step:
+1. calculate the number of subintervals based on the given length of subinterval
+2. use a dictionary to record the sub intervals. The key is node pairs, such as(0,1), (0,2) or (1,3) and the
+value is a ndarray use to record the information of intervals.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tree_model_class.TreeModel.get_pos">
+<code class="descname">get_pos</code><span class="sig-paren">(</span><em>period</em>, <em>state</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tree_model_class.html#TreeModel.get_pos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tree_model_class.TreeModel.get_pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>We can use the relationship between the period, state and index of
+these ndarrays to get the node number by O1.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="tree_model_class.test_tree_model">
+<code class="descclassname">tree_model_class.</code><code class="descname">test_tree_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tree_model_class.html#test_tree_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tree_model_class.test_tree_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="bau_class.html"
+                        title="previous chapter">bau_class module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tree_model_class.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="bau_class.html" title="bau_class module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">code  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Author.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>
